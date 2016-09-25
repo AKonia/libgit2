@@ -588,9 +588,9 @@ static int sort_in_topological_order(git_commit_list **out, git_revwalk *walk)
 
 	/* Now that we have the list and all commits have an in-degree of 1, count it up */
 	for(ll = list; ll; ll = ll->next) {
-		for (i = 0; i < next->out_degree; ++i) {
+		for (i = 0; i < ll->item->out_degree; ++i) {
 			git_commit_list_node *parent = ll->item->parents[i];
-			printf("%s: inc in-degree, %p %s\n", __func__, parent, git_oid_tostr_s(&parent->oid));
+			//printf("%s: inc in-degree, %p %s\n", __func__, parent, git_oid_tostr_s(&parent->oid));
 			parent->in_degree++;
 		}
 	}
@@ -601,7 +601,7 @@ static int sort_in_topological_order(git_commit_list **out, git_revwalk *walk)
 	 */
 	for(ll = list; ll; ll = ll->next) {
 		if (ll->item->in_degree == 1) {
-			printf("%s: inserted with in-degree 1, %p %s\n", __func__, ll->item, git_oid_tostr_s(&ll->item->oid));
+			//printf("%s: inserted with in-degree 1, %p %s\n", __func__, ll->item, git_oid_tostr_s(&ll->item->oid));
 			if ((error = git_pqueue_insert(&queue, ll->item)))
 				goto cleanup;
 		}
@@ -612,7 +612,7 @@ static int sort_in_topological_order(git_commit_list **out, git_revwalk *walk)
 	 * traversal, so if we're not doing time-sorting, we need to reverse the
 	 * pqueue in order to get them to come out as we inserted them.
 	 */
-	if (!((walk->sorting & GIT_SORT_TIME)))
+	if ((walk->sorting & GIT_SORT_TIME) == 0)
 		git_pqueue_reverse(&queue);
 
 

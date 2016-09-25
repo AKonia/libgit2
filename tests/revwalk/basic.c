@@ -540,8 +540,8 @@ void test_revwalk_basic__gechodev(void)
 	cl_git_pass(git_oid_fromstr(&head_id, "b7083959a30f2137d8a6e27a8489f8729873950c"));
 
 	cl_git_pass(git_revwalk_new(&walk, _repo));
-	//git_revwalk_sorting(walk, GIT_SORT_TOPOLOGICAL | GIT_SORT_TIME);
-	git_revwalk_sorting(walk, GIT_SORT_TOPOLOGICAL);
+	git_revwalk_sorting(walk, GIT_SORT_TOPOLOGICAL | GIT_SORT_TIME);
+	//git_revwalk_sorting(walk, GIT_SORT_TOPOLOGICAL);
 	//git_revwalk_sorting(walk, GIT_SORT_TIME);
 	cl_git_pass(git_revwalk_push(walk, &base_id));
 	cl_git_pass(git_revwalk_hide(walk, &head_id));
